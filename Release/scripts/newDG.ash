@@ -1,39 +1,52 @@
 script "newDG.ash"
 
+notify aenimus
+
 import <utils.ash>
 import <bastille.ash>
 import <pantogram.ash>
 import <fortune.ash>
 
-if(DG()) {
 
-	if(!get_property("_newDGskills").to_boolean()) {
-		visit_url("choice.php?whichchoice=1343&option=1");
-		visit_url("main.php");
+
+visit_url("main.php");
+if(last_choice() == 1343) {
+	run_choice(1);
+}
+		
+
+visit_url("main.php");
+if(last_choice() == 1342) {
+	if(!get_property("_newDGSkills").to_boolean()) {
 		if(user_confirm("If you have the maximum HP for all the DG skills, click yes. If not, please click no to allocate skills manually.")) {
-			if(user_confirm("Do you want the muscle-equalizing skill? Scaling fights = easier, but requires reset if you have level 13 muscle test.")) {
+			if(user_confirm("Do you want the muscle-equalizing skill? Without: scaling fights = easier, but less fast healing and requires reset if you have level 13 muscle test.")) {
+			print("Taking muscle equalizer and savage bite.");
 				visit_url("choice.php?whichchoice=1342&option=2&pwd=" + my_hash() + "&sk[]=10&sk[]=11&sk[]=12&sk[]=13&sk[]=14&sk[]=15&sk[]=16&sk[]=17&sk[]=18&sk[]=22&sk[]=23&sk[]=24&sk[]=25&sk[]=26&sk[]=27&sk[]=28&sk[]=30&sk[]=31&sk[]=32&sk[]=33&sk[]=34&sk[]=35&sk[]=36&sk[]=37&sk[]=38");
 				visit_url("choice.php?whichchoice=1342&option=1&pwd=" + my_hash());
-				set_property("_newDGskills", "true");
+				set_property("_newDGSkills", "true");
 			} else {
-				visit_url("choice.php?whichchoice=1342&option=2&pwd=" + my_hash() + "&sk[]=10&sk[]=11&sk[]=12&sk[]=13&sk[]=14&sk[]=16&sk[]=17&sk[]=18&sk[]=22&sk[]=23&sk[]=24&sk[]=25&sk[]=26&sk[]=27&sk[]=28&sk[]=30&sk[]=31&sk[]=32&sk[]=33&sk[]=34&sk[]=35&sk[]=36&sk[]=37&sk[]=38");
+			print("Not taking muscle equalizer and savage bite.");			
+				visit_url("choice.php?whichchoice=1342&option=2&pwd=" + my_hash() + "&sk[]=11&sk[]=12&sk[]=13&sk[]=14&sk[]=16&sk[]=17&sk[]=18&sk[]=22&sk[]=23&sk[]=24&sk[]=25&sk[]=26&sk[]=27&sk[]=28&sk[]=30&sk[]=31&sk[]=32&sk[]=33&sk[]=34&sk[]=35&sk[]=36&sk[]=37&sk[]=38");
 				visit_url("choice.php?whichchoice=1342&option=1&pwd=" + my_hash());
-				set_property("_newDGskills", "true");
+				set_property("_newDGSkills", "true");
 			}
 
 		} else {
-			set_property("_newDGskills", "true");
+			set_property("_newDGSkills", "true");
 			abort("Please allocate your skills manually, confirm, rest for millennia and then re-run.");
 		}
 	}
-
-// Stuffies
-if(get_clan_rumpus() contains "Mr. Klaw \"Skill\" Crane Game") {
-	while(get_property("_klawSummons").to_int() < 3) {
-		print("Collecting rumpus stuffies.", "blue");
-		visit_url("clan_rumpus.php?action=click&spot=3&furni=3");
-	}
 }
+
+if(DG()) {
+
+	// Stuffies
+	if(get_clan_rumpus() contains "Mr. Klaw \"Skill\" Crane Game") {
+		while(get_property("_klawSummons").to_int() < 3) {
+			print("Collecting rumpus stuffies.", "blue");
+			visit_url("clan_rumpus.php?action=click&spot=3&furni=3");
+		}
+	}
 
 	if(have($item[Clan VIP Lounge key])) {
 		while(get_property("_deluxeKlawSummons").to_int() < 3) {
@@ -62,9 +75,9 @@ if(get_clan_rumpus() contains "Mr. Klaw \"Skill\" Crane Game") {
 		print("Collecting stones.", "blue");
 		use(1, sack);
 		if(have(por)) {
-			print("You received " + amt(bac) + " bacontones, " + amt(ham) + " hamethysts and " + amt(por) + " porquoises (precioussss).", "blue");
+			print("You received " + amt(bac) + " baconstones, " + amt(ham) + " hamethysts and " + amt(por) + " porquoises (precioussss).", "blue");
 		} else {
-			print("You received " + amt(bac) + " bacontones, " + amt(ham) + " hamethysts but OMG no porquoises! Drop to casual! ", "red");
+			print("You received " + amt(bac) + " baconstones, " + amt(ham) + " hamethysts but OMG no porquoises! Drop to casual! ", "red");
 		}	
 	}
 	
@@ -76,7 +89,6 @@ if(get_clan_rumpus() contains "Mr. Klaw \"Skill\" Crane Game") {
 			buyUntil(1, $item[taco shell]);
 		}
 		
-		// Pantogram
 		pantogram_summon();
 		
 	}
@@ -87,10 +99,47 @@ if(get_clan_rumpus() contains "Mr. Klaw \"Skill\" Crane Game") {
 		abort("Please do your pantogram pants manually.");
 	}
 	
-	autosell(amt(por), por);
-	autosell(amt(bac), bac);
-	autosell(amt(ham), ham);
+	// AUTOSELLING
+	foreach junk in $items[club necklace, diamond necklace, spade necklace, rubber WWBD? bracelet, rubber WWJD? bracelet, rubber WWSPD? bracelet, rubber WWtNSD? bracelet,
+	stuffed angry cow, stuffed astral badger, stuffed baby gravy fairy, stuffed Cheshire bitten, stuffed cocoabo, stuffed flaming gravy fairy, stuffed frozen gravy fairy, stuffed hand turkey,
+	stuffed MagiMechTech MicroMechaMech, stuffed mind flayer, stuffed scary death orb, stuffed sleazy gravy fairy, stuffed snowy owl, stuffed spooky gravy fairy, stuffed stinky gravy fairy,
+	stuffed undead elbow macaroni, stuffed Meat, Newbiesport&trade; tent]
+		autosell(amt(junk), junk);
 		
+	autosell(amt(por), por);
+	if(user_confirm("Do you want to sell your baconstones? Can poentially be used for a +50% myst potion.")) {
+		autosell(amt(bac), bac);
+	}
+	autosell(amt(ham), ham);
+	
+	// BLOOD BAGS maybe check for collection?
+	visit_url("place.php?whichplace=town_right&action=town_bloodbank");
+	
+	// BOXING DAYCARE
+	if(get_property("daycareOpen").to_boolean()) {
+		visit_url("place.php?whichplace=town_wrong&action=townwrong_boxingdaycare");
+		if(last_choice() == 1334) {
+			if(!get_property("_daycareNap").to_boolean()) {
+				run_choice(1);
+			}
+			if(get_property("_daycareGymScavenges").to_int() == 0) {
+				run_choice(3);
+				if(last_choice() == 1336) {
+					run_choice(2);
+					run_choice(5);
+				}
+			}
+			if(last_choice() == 1334) {
+				run_choice(4);
+			}
+		}
+		if(have($item[body spradium])) {
+			print("You received a body spradium! Congratulations!", "green");
+		} else {
+			print("You did not receive a body spradium! Drop to casual!", "red");
+		}
+	}
+	
 	// Buy and set the radio
 	if(knoll_available() && amt($item[Detuned Radio]) == 0) {
 		print("Buying and using a detuned radio.", "blue");
@@ -98,14 +147,14 @@ if(get_clan_rumpus() contains "Mr. Klaw \"Skill\" Crane Game") {
 		change_mcd(10);
 	}
 	
-	// FantasyRealm
+	// FANTASYREALM
 	if(get_property("frAlways").to_boolean() && !get_property("_lyleHat").to_boolean()) {
 		print("Collecting Lyle FantasyRealm hat.", "blue");
 		item lyleHat;
 		if(my_primestat() == $stat[muscle]) {
 			// Lyle hat
 			cli_execute("make FantasyRealm Warrior's Helm");
-			item lyleHat = $item[FantasyRealm Warrior's Helm];
+			lyleHat = $item[FantasyRealm Warrior's Helm];
 			
 			/* Mummery Muscle substats on the XO Skeleton
 			if(my_familiar() != $familiar[XO Skeleton]) {
@@ -113,19 +162,14 @@ if(get_clan_rumpus() contains "Mr. Klaw \"Skill\" Crane Game") {
 			}*/
 		} else if(my_primestat() == $stat[mysticality]) {
 			cli_execute("make FantasyRealm Mage's Hat");
-			item lyleHat = $item[FantasyRealm Mage's Hat];
+			lyleHat = $item[FantasyRealm Mage's Hat];
 		} else if(my_primestat() == $stat[moxie]) {
 			cli_execute("make FantasyRealm Rogue's Mask");
-			item lyleHat = $item[FantasyRealm Rogue's Mask];			
+			lyleHat = $item[FantasyRealm Rogue's Mask];			
 		}
 		wield(lyleHat);
 		set_property("_lyleHat", "true");
 	}
-	foreach junk in $items[club necklace, diamond necklace, heart necklace, spade necklace, rubber WWBD? bracelet, rubber WWJD? bracelet, rubber WWSPD? bracelet, rubber WWtNSD? bracelet,
-	stuffed angry cow, stuffed astral badger, stuffed baby gravy fairy, stuffed Cheshire bitten, stuffed cocoabo, stuffed flaming gravy fairy, stuffed frozen gravy fairy, stuffed hand turkey,
-	stuffed MagiMechTech MicroMechaMech,stuffed mind flayer, stuffed scary death orb, stuffed sleazy gravy fairy, stuffed snowy owl, stuffed spooky gravy fairy, stuffed stinky gravy fairy,
-	stuffed undead elbow macaroni, Newbiesport&trade; tent]
-		autosell(amt(junk), junk);
 	
 	if(have_effect($effect[Ceaseless Snarling]) < 1) {
 		use_skill(1, $skill[Ceaseless Snarl]);
@@ -138,25 +182,24 @@ if(get_clan_rumpus() contains "Mr. Klaw \"Skill\" Crane Game") {
 	} else {
 		wield($item[old sweatpants]);
 	}
-	wield($item[latte lovers member's mug]);
 	wield(saber);
+	wield($item[latte lovers member's mug]);
 	wield($slot[acc1], $item[Kremlin's Greatest Briefcase]);
-	if(wield($slot[acc2], $item[astral belt])) {
+	if(wield($slot[acc2], $item[Draftsman's driving gloves])) {
+	} else if(wield($slot[acc2], $item[astral belt])) {
 	} else {
 		wield($slot[acc2], $item[astral mask]);
 	}
-	if(wield($slot[acc3], $item[Draftsman's driving gloves])) {
-	} else {
-		wield($item[Lil' Doctor&trade; bag]);
-	}
+	wield($item[Lil' Doctor&trade; bag]);
+
 	
-	if(avail($item[seal tooth])) {
+	if(!avail($item[seal tooth])) {
 		while(avail($item[worthless trinket])) {
 			buyUntil(1, $item[chewing gum on a string]);
 			use(1, $item[chewing gum on a string]);
 		}
 		cli_execute("hermit seal tooth");
-	}
+	} 
 	
 	// Bastille
 	print("Using bastille now so we don't die while looking for a goblin. RIP possible 1 turn of buff.", "blue");
@@ -192,7 +235,7 @@ if(get_clan_rumpus() contains "Mr. Klaw \"Skill\" Crane Game") {
 		cli_execute("counters add " + (10 - get_property("_boomBoxFights").to_int()) + " BoomBox reward");
 	}
 	
-	if(have(saber) && !get_property("_saberUpgrade").to_boolean()) {
+	if(avail(saber) && !get_property("_saberUpgrade").to_boolean()) {
 			visit_url("main.php?action=may4");
 		if(user_confirm("Do you want the +ML saber upgrade?")) {
 			print("Setting the saber to +ML.", "blue");
@@ -238,6 +281,48 @@ if(get_clan_rumpus() contains "Mr. Klaw \"Skill\" Crane Game") {
 		buyUntil(1, $item[glittery mascara]);
 		use(1, $item[glittery mascara]);
 	}
+	if(get_campground() contains $item[packet of tall grass seeds]) {
+		visit_url("/campground.php?action=garden&pwd=" + my_hash());
+	}
+	if(get_campground() contains $item[potted tea tree] && !get_property("_pottedTeaTreeUsed").to_boolean()) {
+		if(user_confirm("Do you want to shake your tree? +90 meat, but aftercore losses.")) {
+			visit_url("/campground.php?action=teatree");
+			run_choice(1);
+		}
+	}
+	
+	if(get_property("daycareOpen").to_boolean() && !get_property("_daycareNap").to_boolean() && user_confirm("Do you want to acquire your daycare buff (probably yes)?")) {
+		cli_execute("daycare mysticality");
+	}
+	if(avail($item[Daily Affirmation: Keep Free Hate in your Heart])){
+		if(user_confirm("Do you want to use your Affirmation +ML buff (probably yes)?")) {
+			use(1, $item[Daily Affirmation: Keep Free Hate in your Heart]);
+		}
+	}
 
-
+if(get_property("telescopeUpgrades").to_int() > 1) {
+	cli_execute("telescope");
+	string t1;
+	if(contains_text(get_property("telescope1"), "muscles")) {
+		t1 = "muscle";
+	} else if(contains_text(get_property("telescope1"), "puzzles")) {
+		t1 = "mysticality";
+	} else if(contains_text(get_property("telescope1"), "sunglasses")) {
+		t1 = "moxie";
+	}
+	string t2 = "impossible to determine";
+	if(contains_text(get_property("telescope2"), "fire")) {
+		t2 = "hot (8-bit realm semi-rare)";
+	} else if(contains_text(get_property("telescope2"), "eldritch")) {
+		t2 = "spooky (spooky forest semi-rare)";
+	} else if(contains_text(get_property("telescope2"), "skulking")) {
+		t2 = "sleaze (whitey's grove semi-rare)";
+	} else if(contains_text(get_property("telescope2"), "garbage")) {
+		t2 = "stench (guano junction semi-rare)";
+	} else if(contains_text(get_property("telescope2"), "igloo")) {
+		t2 = "cold (haunted kitchen semi-rare)";
+	}
+	print("Your level 13 quest tests are " + t1 + " and " + t2 + ".", "purple");
+}
+	print("Remember to check today's bounties and exit Mafia or else it won't recognise the saber upgrade!");
 }
