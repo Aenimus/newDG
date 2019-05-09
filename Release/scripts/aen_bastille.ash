@@ -1,4 +1,4 @@
-script bastille.ash
+script aen_bastille.ash
 
 // Bastille automation stolen from Cheesecookie; bastilleBatallion(0, 0, 0, 0); in script
 boolean bastilleBatallion(int stats, int it, int buff, int potion) {

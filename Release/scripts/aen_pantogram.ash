@@ -1,6 +1,6 @@
-script pantogram.ash
+script aen_pantogram.ash
 
-import utils.ash
+import aen_utils.ash
 
 // PANTOGRAM
 boolean pantogram_have() {

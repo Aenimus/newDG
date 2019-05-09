@@ -1,4 +1,4 @@
-script fortune.ash
+script aen_fortune.ash
 
 // Clan Fortune Teller (Cheesecookie)
 int changeClan(int toClan);			//Returns new clan ID (or old one if it failed)
