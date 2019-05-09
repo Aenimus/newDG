@@ -1,18 +1,16 @@
 script "newDG.ash"
 
+import <aen_utils.ash>
+import <aen_bastille.ash>
+import <aen_pantogram.ash>
+import <aen_fortune.ash>
+
 if(!get_property("noDG").to_boolean() && user_confirm("Would you like to tell Aenimus that you're using this script? It would be nice to know, but feel free to say no.")) {
 	notify aenimus;
 	set_property("noDG", "true");
 } else {
 	set_property("noDG", "true");
 }
-
-import <aen_utils.ash>
-import <aen_bastille.ash>
-import <aen_pantogram.ash>
-import <aen_fortune.ash>
-
-
 
 visit_url("main.php");
 if(last_choice() == 1343) {
