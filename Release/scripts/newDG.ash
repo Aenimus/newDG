@@ -294,7 +294,7 @@ if(DG()) {
 		}
 	}
 	
-	if(get_property("daycareOpen").to_boolean() && !get_property("_daycareNap").to_boolean() && user_confirm("Do you want to acquire your daycare buff (probably yes)?")) {
+	if(get_property("daycareOpen").to_boolean() && !get_property("_daycareSpa").to_boolean() && user_confirm("Do you want to acquire your daycare buff (probably yes)?")) {
 		cli_execute("daycare mysticality");
 	}
 	if(avail($item[Daily Affirmation: Keep Free Hate in your Heart])){
