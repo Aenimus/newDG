@@ -98,6 +98,7 @@ if(DG()) {
 	
 
 	if(!get_property("_aen_ppants").to_boolean() && user_confirm("Safety check that your porquoise is safely in your pantogram pants.")) {
+		set_property("_aen_ppants", "true");
 	} else {
 		abort("Please do your pantogram pants manually.");
 		set_property("_aen_ppants", "true");
@@ -125,7 +126,7 @@ if(DG()) {
 		if(have(bac)) {
 			if(in_mysticality_sign() && user_confirm("Do you want to sell your baconstones? Can potentially be used for a +50% myst potion in gnome sign.")) {
 				autosell(amt(bac), bac);
-			} else if(user_confirm("Do you want to sell your baconstones?")) {
+			} else if(!in_mysticality_sign() && user_confirm("Do you want to sell your baconstones?")) {
 				autosell(amt(bac), bac);
 			}
 		}
@@ -222,11 +223,11 @@ if(DG()) {
 	wield($item[Lil' Doctor&trade; bag]);
 	
 	// Seal Tooth
-	if(user_confirm("Do you want to fish for a seal tooth? The script won't spend more than 150 meat at at time without permission.")) {
+	if(!have($item[seal tooth]) && user_confirm("Do you want to fish for a seal tooth? The script won't spend more than 150 meat at at time without permission.")) {
 		int spentMeat = 0;
 		while(!have($item[seal tooth])) {
 			int meat = my_meat();
-			while(!have($item[worthless trinket]) && !have($item[worthless gewgaw]) && !have($item[worthless knick-knack]) && my_meat() >= meat - 150) {
+			while(!have($item[worthless trinket]) && !have($item[worthless gewgaw]) && !have($item[worthless knick-knack]) && my_meat() > meat - 150) {
 				buyUntil(1, $item[chewing gum on a string]);
 				spentMeat++;
 				use(1, $item[chewing gum on a string]);
