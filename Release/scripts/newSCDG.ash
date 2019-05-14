@@ -1,4 +1,4 @@
-script "newDG.ash"
+script "newSCDG.ash"
 
 import <aen_utils.ash>
 import <aen_bastille.ash>
@@ -40,7 +40,7 @@ if(last_choice() == 1342) {
 	}
 }
 
-if(DG()) {
+if(SCDG()) {
 
 	// Stuffies
 	if(get_clan_rumpus() contains "Mr. Klaw \"Skill\" Crane Game") {
@@ -91,7 +91,7 @@ if(DG()) {
 			buyUntil(1, $item[taco shell]);
 		}
 		
-		pantogram_summon();
+		pantogram_summon("-com");
 		wield(pantogram_pants);
 		
 	}
